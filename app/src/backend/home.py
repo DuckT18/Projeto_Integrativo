@@ -29,7 +29,7 @@ def obter_dados_tela_home(id_usuario: int):
     resultado_final = {
         "mensagem_header": mensagem_boas_vindas,
         "resumo_dia": resumo_dia,
-        "conteudo_tela": dados_home # Os dados originais para as seções
+        "conteudo_tela": dados_home 
     }
 
     return resultado_final
