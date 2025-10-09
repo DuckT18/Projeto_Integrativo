@@ -7,7 +7,6 @@ class UserCreate(BaseModel):
     password: str
 
 # Esquema para resposta ao criar ou buscar um usuário (o que a API retorna)
-# Nunca retorne a senha!
 class UserOut(BaseModel):
     id: int
     email: EmailStr
