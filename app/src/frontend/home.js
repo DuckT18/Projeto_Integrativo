@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL do endpoint FastAPI que executa a sua lógica Python.
     // **Ajuste a porta e o endpoint conforme o seu FastAPI.**
-    const API_URL = 'http://127.0.0.1:8000/home/123'; // Usando ID 123 como exemplo
+    const API_URL = 'http://127.0.0.1:8000/login'; 
 
     const mensagemBoasVindas = document.getElementById('mensagemBoasVindas');
     const resumoDia = document.getElementById('resumoDia');
