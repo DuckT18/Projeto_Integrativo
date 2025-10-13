@@ -1,0 +1,93 @@
+/* Reset básico para garantir consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    /* Centraliza o conteúdo vertical e horizontalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9; /* Fundo suave */
+}
+
+/* Estilo unificado para containers de login e registro */
+.login-container, .registro-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    width: 100%;
+    max-width: 450px; /* Um pouco mais largo para o formulário de registro */
+}
+
+.login-form h2, .registro-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.8em;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #28a745; /* Cor verde para registrar */
+    outline: none;
+}
+
+/* Estilo do botão de Registro */
+.registro-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745; /* Cor Verde para Registro/Criação */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.registro-form button:hover {
+    background-color: #1e7e34; /* Tom mais escuro ao passar o mouse */
+}
+
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin: 0 10px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
