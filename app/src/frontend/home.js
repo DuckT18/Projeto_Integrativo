@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // URL do endpoint FastAPI que executa a sua lógica Python.
-    // **Ajuste a porta e o endpoint conforme o seu FastAPI.**
+    
     const API_URL = 'http://127.0.0.1:8000/login'; 
 
     const mensagemBoasVindas = document.getElementById('mensagemBoasVindas');
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'GET', // Método GET para buscar dados
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': 'Bearer <token_de_login>' // Adicionar token em um projeto real
+                    // 'Authorization': 'Bearer <token_de_login>' 
                 }
             });
 
