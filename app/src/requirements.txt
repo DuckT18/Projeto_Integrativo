@@ -1,0 +1,5 @@
+fastapi[all]
+sqlalchemy
+mysql-connector-python
+passlib[bcrypt]
+python-jose[cryptography]

@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 # Esquema para criação de usuário (o que o cliente envia)
 class UserCreate(BaseModel):
@@ -22,3 +23,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+    email: Optional[str] = None
