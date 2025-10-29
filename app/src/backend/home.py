@@ -1,41 +1,27 @@
-from prototipo_dados import dados_home # Importando os dados para utilizar no prototipo de logica da tela home
+from .prototipo_dados import dados_home_resgate # Importando os dados para utilizar no prototipo de logica da tela home
 import json
+from typing import Dict, Any
+from .database import schemas, security, models, database, crud
 
-def obter_dados_tela_home(id_usuario: int):
+def get_home_logic(current_user) -> Dict[str, Any]:
     """
-    Função que simula a busca e a montagem dos dados para a tela inicial.
+    Lógica de negócios para buscar os dados da home page.
+    Esta função é chamada pelo endpoint em router.py.
     
-    OBS: ainda falta implementar a lógica dessa página com o banco de dados
+    No futuro:
+    1. Use 'current_user.id' e o 'db: Session' (que você pode passar como argumento) 
+       para buscar os dados *deste* usuário no MySQL.
+    2. Busque casos urgentes com base na geolocalização do 'current_user'.
+    3. Busque os resgates em andamento associados ao 'current_user.id'.
+    4. Monte o dicionário de resposta dinamicamente.
     """
     
-    nome_usuario = dados_home["usuario"]["nome"]
-    mensagem_boas_vindas = f"Olá, {nome_usuario}! Pronto(a) para ser produtivo(a) hoje?"
-
-    tarefas = []
+    dados_formatados = dados_home_resgate.copy() 
     
-    for secao in dados_home["secoes"]:
-        if secao["id_secao"] == "tarefas":
-            tarefas = secao["itens"]
-            break
+    nome_usuario = getattr(current_user, 'full_name', current_user.username)
+    dados_formatados["usuario"]["nome"] = nome_usuario or "Usuário"
+    dados_formatados["usuario"]["id_usuario"] = current_user.id
     
+    return dados_formatados
+
     
-    tarefas_pendentes = sum(1 for tarefa in tarefas if not tarefa["concluida"])
-    
-    if tarefas_pendentes > 0:
-        resumo_dia = f"Você tem {tarefas_pendentes} tarefa(s) pendente(s)."
-    else:
-        resumo_dia = "Você completou todas as suas tarefas. Parabéns!"
-
-    resultado_final = {
-        "mensagem_header": mensagem_boas_vindas,
-        "resumo_dia": resumo_dia,
-        "conteudo_tela": dados_home 
-    }
-
-    return resultado_final
-
-if __name__ == "__main__":
-   
-    dados_para_tela = obter_dados_tela_home(id_usuario=123)
-
-    print(json.dumps(dados_para_tela, indent=2, ensure_ascii=False))
