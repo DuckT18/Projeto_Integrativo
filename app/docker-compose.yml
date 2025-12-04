@@ -1,0 +1,37 @@
+services:
+  # Serviço do Banco de Dados
+  db:
+    image: mysql:8.0
+    container_name: resgate_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: PIDB
+      MYSQL_ROOT_PASSWORD: 0608ArthurMelo19  
+    ports:
+      - "3307:3306" # Mapeia a porta 3306 do container para 3307 do host para evitar conflitos
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Serviço da Aplicação (Backend + Frontend estático)
+  web:
+    build: .
+    container_name: resgate_app
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # A URL de conexão aponta para o NOME DO SERVIÇO 'db' em vez de localhost
+      DATABASE_URL: mysql+mysqlconnector://root:0608ArthurMelo19@db:3306/PIDB
+    volumes:
+      # Monta a pasta src local dentro do container para desenvolvimento (hot-reload)
+      - ./src:/app/src
+
+volumes:
+  mysql_data:

@@ -1,0 +1,32 @@
+# Usa uma imagem oficial leve do Python
+FROM python:3.10-slim
+
+# Define o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Evita que o Python escreva arquivos .pyc e bufferize stdout
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Instala dependências do sistema necessárias para o mysqlclient
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends default-libmysqlclient-dev build-essential pkg-config \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copia o arquivo de requisitos para dentro do container
+COPY src/requirements.txt .
+
+# Instala as dependências do Python
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copia todo o código fonte (backend e frontend) para dentro do container
+COPY src/ ./src/
+
+# Expõe a porta 8000
+EXPOSE 8000
+
+# Comando para rodar a aplicação
+# O workdir é /app, então chamamos src.backend.router:app
+CMD ["uvicorn", "src.backend.router:app", "--host", "0.0.0.0", "--port", "8000"]
