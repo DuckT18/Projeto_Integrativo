@@ -1,0 +1,32 @@
+body {
+    background-color: #f3f4f6; /* Desktop cinza */
+}
+
+@media (max-width: 768px) {
+    body {
+        background-color: #ffffff;
+    }
+    #app-wrapper {
+        box-shadow: none;
+    }
+}
+
+/* Scrollbar fina para a lista de mensagens */
+#messages-area::-webkit-scrollbar {
+    width: 4px;
+}
+
+#messages-area::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 4px;
+}
+
+/* Animação suave de entrada de mensagem */
+@keyframes messageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.flex.gap-3 {
+    animation: messageIn 0.2s ease-out forwards;
+}

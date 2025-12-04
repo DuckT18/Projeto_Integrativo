@@ -1,5 +1,11 @@
-fastapi[all]
+fastapi
+uvicorn[standard]
 sqlalchemy
-mysql-connector-python
 passlib[bcrypt]
 python-jose[cryptography]
+python-multipart
+mysqlclient
+argon2-cffi
+mysql-connector-python
+email-validator
+websockets

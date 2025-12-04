@@ -1,20 +1,52 @@
+/* Reset Básico */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6; 
+    background-color: #f3f4f6; /* Cinza no desktop */
+    margin: 0;
+    padding: 0;
 }
 
-.no-scrollbar::-webkit-scrollbar {
+@media (max-width: 768px) {
+    body {
+        background-color: #ffffff; /* Branco no mobile */
+    }
+    #app-wrapper {
+        box-shadow: none; /* Remove sombra no mobile */
+    }
+}
+
+/* --- Scrollbars Personalizadas (Escondidas mas funcionais) --- */
+
+/* Esconde scrollbar padrão para Webkit (Chrome, Safari) */
+.scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
-.no-scrollbar {
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
+
+/* Esconde scrollbar padrão para Firefox/IE */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
-.loading-dots div {
-    animation:-morse-code 1s infinite
+/* Scroll Vertical da Página Principal */
+#main-scroll {
+    /* Garante rolagem suave */
+    scroll-behavior: smooth;
+    /* Força a criação de um contexto de rolagem */
+    -webkit-overflow-scrolling: touch;
 }
-@keyframes -morse-code {
-    0%, 100% { opacity: 1 }
-    50% { opacity: 0.2 }
+
+/* Ajuste fino para o Carrossel Horizontal */
+.overflow-x-auto {
+    /* Permite o "momentum scrolling" no iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Garante que o container tenha largura para rolar */
+    width: 100%;
+    /* Evita quebra de linha dos itens */
+    white-space: nowrap; 
+}
+
+/* Garante que os cards do carrossel não encolham */
+.flex-shrink-0 {
+    flex-shrink: 0;
 }

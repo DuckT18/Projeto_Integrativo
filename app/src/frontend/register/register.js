@@ -1,4 +1,5 @@
-const API_REGISTER_URL = '/register'; 
+// --- CONSTANTES GLOBAIS ---
+const API_REGISTER_URL = '/register'; // Ajuste se seu prefixo mudou (ex: /api/v1/register)
 
 // --- ELEMENTOS DO DOM ---
 const registerForm = document.getElementById('register-form');
@@ -25,38 +26,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- FUNÇÕES DE CONTROLE DE UI ---
+// --- FUNÇÕES DE UI ---
 function setRegisterLoading(isLoading) {
     if (isLoading) {
         registerButtonText.classList.add('hidden');
         registerButtonSpinner.classList.remove('hidden');
-        if (registerForm) {
-            registerForm.querySelector('button[type="submit"]').disabled = true;
-        }
+        if (registerForm) registerForm.querySelector('button[type="submit"]').disabled = true;
     } else {
         registerButtonText.classList.remove('hidden');
         registerButtonSpinner.classList.add('hidden');
-        if (registerForm) {
-            registerForm.querySelector('button[type="submit"]').disabled = false;
-        }
+        if (registerForm) registerForm.querySelector('button[type="submit"]').disabled = false;
     }
 }
 
 function showRegisterError(message) {
     if (registerSuccess) registerSuccess.classList.add('hidden');
-    if (registerErrorMessage) {
-        registerErrorMessage.textContent = message || "Ocorreu um erro.";
-    }
-    if (registerError) {
-        registerError.classList.remove('hidden');
-    }
+    if (registerErrorMessage) registerErrorMessage.textContent = message || "Ocorreu um erro.";
+    if (registerError) registerError.classList.remove('hidden');
 }
 
-function showRegisterSuccess(message) {
+function showRegisterSuccess() {
     if (registerError) registerError.classList.add('hidden');
-    if (registerSuccess) {
-        registerSuccess.classList.remove('hidden');
-    }
+    if (registerSuccess) registerSuccess.classList.remove('hidden');
 }
 
 // --- LÓGICA DE REGISTRO ---
@@ -64,24 +55,31 @@ async function handleRegister(event) {
     event.preventDefault();
     setRegisterLoading(true);
     if (registerError) registerError.classList.add('hidden');
-    if (registerSuccess) registerSuccess.classList.add('hidden');
-
+    
     const formData = new FormData(registerForm);
-    const username = formData.get('username');
-    const email = formData.get('email');
     const password = formData.get('password');
     const passwordConfirm = formData.get('password-confirm');
+    const username = formData.get('username');
 
+    // 1. Validação de Senha
     if (password !== passwordConfirm) {
         showRegisterError("As senhas não conferem.");
         setRegisterLoading(false);
         return;
     }
 
+    // 2. Geração de Avatar (Mock)
+    // Usamos o username para gerar sempre a mesma imagem "aleatória" para aquele usuário
+    const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`;
+
+    // 3. Montagem do Payload (Exatamente como o Schema UserCreate pede)
     const payload = {
-        email: email,
-        username: username,
-        password: password
+        nome: formData.get('nome'),           // Novo campo
+        username: username,                   // Novo campo
+        email: formData.get('email'),
+        password: password,
+        tipo_perfil: formData.get('tipo_perfil'), // Novo campo
+        avatar_url: avatarUrl                 // Gerado automaticamente
     };
 
     try {
@@ -99,15 +97,23 @@ async function handleRegister(event) {
             throw new Error(data.detail || `Erro ${response.status}`);
         }
 
+        // Sucesso
         showRegisterSuccess();
         
+        // Redireciona
         setTimeout(() => {
             window.location.href = '../login/login.html';
         }, 2000);
 
     } catch (error) {
         console.error('Erro no registro:', error);
-        showRegisterError(error.message);
+        // Tratamento para erro de validação do Pydantic (lista de erros)
+        if (Array.isArray(error.detail)) {
+            const msg = error.detail.map(e => e.msg).join(', ');
+            showRegisterError(msg);
+        } else {
+            showRegisterError(error.message);
+        }
     } finally {
         setRegisterLoading(false);
     }

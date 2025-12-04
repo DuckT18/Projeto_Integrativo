@@ -1,0 +1,69 @@
+/* Estilos globais complementares ao Tailwind */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6; /* bg-gray-100 em desktop para destacar o 'app' */
+}
+
+/* Em telas mobile, o fundo fica branco para parecer um app nativo ocupando toda a tela */
+@media (max-width: 768px) {
+    body {
+        background-color: #ffffff;
+    }
+    #app-wrapper {
+        box-shadow: none; /* Remove a sombra do container em mobile */
+        min-height: 100vh;
+    }
+}
+
+/* ESTILOS PERSONALIZADOS DO RADIO BUTTON (NÍVEL DE URGÊNCIA) 
+   Isso cria a bolinha colorida no canto do card selecionado
+*/
+input[type="radio"]:checked + div {
+    position: relative;
+    border-width: 2px;
+    /* A cor da borda é definida pelas classes peer-checked do Tailwind no HTML */
+}
+
+/* O elemento ::after cria a "bolinha" indicadora */
+input[type="radio"]:checked + div::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 14px;
+    height: 14px;
+    background-color: currentColor; /* Pega a cor do texto do elemento pai (vermelho, laranja ou amarelo) */
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* ANIMAÇÕES DO MODAL DE MAPA
+*/
+
+/* Fade In do fundo escuro */
+#map-modal:not(.hidden) {
+    animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Slide Up do container branco do mapa */
+#map-modal:not(.hidden) > div {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(20px) scale(0.95); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}

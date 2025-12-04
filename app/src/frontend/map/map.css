@@ -1,0 +1,27 @@
+body {
+    background-color: #f3f4f6; /* Fundo cinza para desktop */
+}
+
+/* Garante que o mapa ocupe 100% da altura disponível */
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Ajustes no popup do Leaflet para ficar mais bonito */
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    padding: 0;
+    overflow: hidden;
+}
+
+.leaflet-popup-content {
+    margin: 10px;
+    width: 160px !important;
+}
+
+/* Esconder créditos do Leaflet em telas muito pequenas se atrapalhar (opcional) */
+.leaflet-control-attribution {
+    font-size: 8px;
+}

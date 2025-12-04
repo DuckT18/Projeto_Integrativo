@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-full bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversas - Resgate.PET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { brand: { yellow: '#FACD19' } }
+                },
+            },
+        };
+    </script>
+    <link rel="stylesheet" href="chat.css">
+    <script src="chat.js" type="module" defer></script>
+</head>
+<body class="h-full font-sans antialiased text-gray-900 bg-gray-50 pb-24">
+
+    <div id="app-wrapper" class="max-w-md mx-auto min-h-screen relative bg-white flex flex-col shadow-2xl">
+        
+        <!-- Header -->
+        <header class="px-6 py-5 bg-white border-b border-gray-100 flex items-center justify-between sticky top-0 z-10">
+            <h1 class="text-2xl font-extrabold text-black">Mensagens</h1>
+            <button class="p-2 bg-yellow-50 text-brand-yellow rounded-full hover:bg-yellow-100 transition-colors">
+                <i data-lucide="plus" class="h-5 w-5"></i>
+            </button>
+        </header>
+
+        <!-- Lista de Conversas -->
+        <main class="flex-grow overflow-y-auto">
+            <!-- Barra de Busca -->
+            <div class="px-6 py-4">
+                <div class="relative">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"></i>
+                    <input type="text" placeholder="Buscar conversa..." class="w-full bg-gray-100 text-sm py-3 pl-10 pr-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-yellow/50 transition-all">
+                </div>
+            </div>
+
+            <!-- Lista (Container Dinâmico) -->
+            <div id="chat-list" class="flex flex-col">
+                <!-- Exemplo Estático (Item de Conversa) -->
+                <a href="conversation.html?id=10" class="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-50 cursor-pointer relative">
+                    <div class="relative">
+                        <img src="https://i.pravatar.cc/150?img=12" class="w-12 h-12 rounded-full object-cover border border-gray-200">
+                        <!-- Bolinha Online -->
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h3 class="font-bold text-gray-900 truncate">Ana Resgatista</h3>
+                            <span class="text-xs text-gray-400 font-medium">10:30</span>
+                        </div>
+                        <p class="text-sm text-gray-500 truncate">Oi! Você viu o cachorro na praça?</p>
+                    </div>
+                    <!-- Contador de Não Lidas -->
+                    <div class="w-5 h-5 bg-brand-yellow text-white text-[10px] font-bold flex items-center justify-center rounded-full">2</div>
+                </a>
+
+                <a href="conversation.html?id=20" class="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-50 cursor-pointer">
+                    <div class="relative">
+                        <img src="https://i.pravatar.cc/150?img=59" class="w-12 h-12 rounded-full object-cover border border-gray-200">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h3 class="font-bold text-gray-900 truncate">Bruno Veterinário</h3>
+                            <span class="text-xs text-gray-400 font-medium">Ontem</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">Obrigado pela ajuda!</p>
+                    </div>
+                </a>
+            </div>
+        </main>
+
+        <!-- Menu Inferior -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center z-30 pb-6 rounded-t-3xl shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.05)] max-w-md mx-auto">
+            <a href="../home/home.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-900 p-2">
+                <i data-lucide="house" class="h-6 w-6"></i>
+            </a>
+            <a href="../map/map.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-900 p-2">
+                <i data-lucide="map" class="h-6 w-6"></i>
+            </a>
+            <a href="../create_case/create_case.html" class="bg-brand-yellow text-white rounded-2xl p-4 shadow-xl shadow-yellow-200 transform -translate-y-6 hover:scale-110 transition-transform border-4 border-white flex items-center justify-center">
+                <i data-lucide="plus" class="h-7 w-7"></i>
+            </a>
+            <!-- Chat Ativo -->
+            <a href="#" class="flex flex-col items-center gap-1 text-brand-yellow p-2">
+                <i data-lucide="message-circle" class="h-6 w-6 fill-current"></i>
+                <span class="h-1 w-1 bg-brand-yellow rounded-full"></span>
+            </a>
+            <button id="logout-button" class="flex flex-col items-center gap-1 text-gray-400 hover:text-red-500 p-2">
+                <i data-lucide="log-out" class="h-6 w-6"></i>
+            </button>
+        </nav>
+
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", () => { if (window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

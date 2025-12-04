@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="h-full bg-gray-100">
+<html lang="pt-br" class="h-full bg-gray-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,12 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    colors: {
+                        brand: {
+                            yellow: '#FACD19', 
+                            text: '#DFAA00',   
+                        }
+                    }
                 },
             },
         };
@@ -20,61 +26,93 @@
     <link rel="stylesheet" href="./login.css">
     <script src="./login.js" type="module" defer></script>
 </head>
-<body class="h-full font-sans antialiased">
-    <div id="login-section" class="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <svg class="mx-auto h-12 w-auto text-orange-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-pulse"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3.22 1-4.5 2.09C10.72 4 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.7-1.44.7 2.88.7-1.44H15"/></svg>
-            <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Acesse sua conta
-            </h2>
-        </div>
+<body class="h-full font-sans antialiased text-gray-900 bg-gray-50">
 
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <!-- Mensagem de erro de login -->
-            <div id="login-error" class="hidden rounded-md bg-red-50 p-4 mb-4">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div class="ml-3">
-                        <h3 id="login-error-message" class="text-sm font-medium text-red-800">E-mail ou senha incorretos.</h3>
-                    </div>
-                </div>
+    <!-- Container Principal Centralizado para Desktop / Tela Cheia para Mobile -->
+    <div class="min-h-screen flex flex-col justify-center sm:py-12">
+        
+        <!-- Wrapper que simula a tela do celular no desktop -->
+        <div class="relative sm:max-w-md sm:mx-auto sm:w-full h-full sm:h-auto flex flex-col bg-gray-50 sm:rounded-3xl sm:shadow-xl overflow-hidden">
+            
+            <!-- Seção Superior (Boas Vindas) -->
+            <div class="px-8 pt-12 pb-8">
+                <!-- Quadrado Amarelo (Logo Placeholder) -->
+                <div class="w-12 h-12 bg-brand-yellow rounded-md mb-6"></div>
+
+                <h1 class="text-4xl font-extrabold text-brand-text leading-tight">
+                    Seja <br /> Bem-Vindo!
+                </h1>
+
+                <p class="mt-4 text-sm text-gray-600 font-medium">
+                    Lorem ipsum dolor amet, consectetur adipiscing elit.
+                </p>
             </div>
 
-            <form id="login-form" class="space-y-6">
-                <div>
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email (usuário)</label>
-                    <div class="mt-2">
-                        <input id="email" name="username" type="email" autocomplete="email" required
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6">
+            <!-- Seção Inferior (Formulário - Cartão Branco) -->
+            <div class="bg-white rounded-t-[40px] px-8 py-10 flex-grow shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+                
+                <h2 class="text-2xl font-bold text-black mb-8">Login</h2>
+
+                <!-- Mensagem de erro de login (Mantida da lógica original) -->
+                <div id="login-error" class="hidden rounded-md bg-red-50 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 id="login-error-message" class="text-sm font-medium text-red-800">E-mail ou senha incorretos.</h3>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
-                    <div class="mt-2">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6">
+                <form id="login-form" class="space-y-5">
+                    <!-- Input Email -->
+                    <div>
+                        <input id="email" name="username" type="email" autocomplete="email" required placeholder="Email"
+                            class="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow sm:text-sm sm:leading-6 outline-none transition duration-200">
                     </div>
-                </div>
 
-                <div>
-                    <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                        <span id="login-button-text">Entrar</span>
-                        <div id="login-button-spinner" class="hidden animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    </button>
-                </div>
-            </form>
+                    <!-- Input Senha -->
+                    <div class="relative">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Senha"
+                            class="block w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow sm:text-sm sm:leading-6 outline-none transition duration-200 pr-10">
+                        
+                        <!-- Ícone de Olho -->
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-500 hover:text-gray-700">
+                            <i data-lucide="eye" class="h-5 w-5"></i>
+                        </div>
+                    </div>
 
-            <p class="mt-10 text-center text-sm text-gray-500">
-                Não tem conta?
-                <a href="../register/register.html" class="font-semibold leading-6 text-orange-600 hover:text-orange-500">Crie uma agora</a>
-            </p>
+                    <!-- Link Esqueceu Senha -->
+                    <div class="flex justify-start">
+                        <a href="#" class="text-sm font-bold text-brand-text hover:text-yellow-600 underline decoration-2 underline-offset-2">
+                            Esqueceu sua senha?
+                        </a>
+                    </div>
+
+                    <!-- Botão de Login -->
+                    <div class="pt-2">
+                        <button type="submit"
+                            class="flex w-full justify-center rounded-xl bg-brand-yellow px-3 py-3.5 text-base font-bold text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500 transition-colors duration-200">
+                            <span id="login-button-text">Login</span>
+                            <div id="login-button-spinner" class="hidden animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Footer Criar Conta -->
+                <p class="mt-8 text-center text-sm font-medium text-gray-600">
+                    Não tem uma conta?
+                    <a href="../register/register.html" class="font-bold text-brand-text hover:text-yellow-600 underline decoration-2 underline-offset-2">Criar.</a>
+                </p>
+            </div>
+
         </div>
     </div>
+
+    <!-- Script para inicializar ícones Lucide -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

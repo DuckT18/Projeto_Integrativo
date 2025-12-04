@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Casos - Resgate.PET</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { brand: { yellow: '#FACD19' } }
+                },
+            },
+        };
+    </script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="map.css">
+    
+    <!-- VERSÃO NOVA V=5 para Cache Busting -->
+    <script src="map.js?v=5" type="module" defer></script>
+</head>
+<body class="h-full font-sans antialiased text-gray-900 bg-gray-100">
+
+    <div id="app-wrapper" class="max-w-md mx-auto h-screen relative bg-white flex flex-col shadow-2xl">
+        
+        <!-- Header Flutuante -->
+        <div class="absolute top-0 left-0 right-0 z-[1000] p-4 pointer-events-none">
+            <div class="bg-white/90 backdrop-blur-sm shadow-md rounded-xl p-3 flex items-center justify-between pointer-events-auto">
+                <a href="../home/home.html" class="p-1 rounded-full hover:bg-gray-100">
+                    <i data-lucide="chevron-left" class="h-6 w-6 text-gray-700"></i>
+                </a>
+                <h1 class="text-sm font-bold text-gray-800">Mapa de Ocorrências</h1>
+                <div class="w-8"></div>
+            </div>
+        </div>
+
+        <!-- CONTAINER DO MAPA -->
+        <div id="map" class="flex-grow z-0 bg-gray-200"></div>
+
+        <!-- Menu Inferior -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-[20px] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] px-6 py-4 flex justify-between items-center z-[1000] max-w-md mx-auto">
+            <a href="../home/home.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-600">
+                <i data-lucide="house" class="h-6 w-6"></i>
+            </a>
+            
+            <!-- Mapa Ativo -->
+            <a href="#" class="flex flex-col items-center gap-1 text-brand-yellow">
+                <i data-lucide="map" class="h-6 w-6"></i>
+                <span class="h-1 w-1 bg-brand-yellow rounded-full"></span>
+            </a>
+
+            <a href="../create_case/create_case.html" class="bg-brand-yellow text-white rounded-xl p-3 shadow-lg transform -translate-y-4 hover:scale-105 transition-transform flex items-center justify-center">
+                <i data-lucide="plus" class="h-7 w-7"></i>
+            </a>
+
+            <a href="../chat/chat.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-gray-900 transition-colors p-2">
+                <i data-lucide="message-circle" class="h-6 w-6"></i>
+            </a>
+            
+            <button id="logout-button" class="flex flex-col items-center gap-1 text-red-500 hover:text-red-600">
+                <i data-lucide="log-out" class="h-6 w-6"></i>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

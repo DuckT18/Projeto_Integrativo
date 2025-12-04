@@ -1,16 +1,18 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, WebSocket, WebSocketDisconnect
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
+from typing import Dict, Any
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from .database import crud, models, schemas, security
 from .database import engine, get_db
-from .home import get_home_logic
-from .database.security import get_current_active_user 
+from .home import get_home_logic 
+from .database.security import get_current_active_user, get_current_user_ws
+from pathlib import Path
+from .connection_manager import manager
+import json
 
-
-# Cria as tabelas definidas
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -55,15 +57,18 @@ def login_for_access_token(
     
     return {"access_token": access_token, "token_type": "bearer"}
 
+# esse endpoint recebe o json montado da função get_home_logic dentro do home
 @app.get("/api/v1/home")
 async def read_home_data(
-    current_user: models.User = Depends(get_current_active_user)
+    current_user: models.User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
 ):
     """
     Endpoint protegido que retorna os dados da home
     para o usuário logado.
     """
-    home_data = get_home_data(user=current_user)
+
+    home_data = get_home_logic(current_user=current_user, db=db)
     return home_data
 
 @app.get("/")
@@ -73,5 +78,82 @@ async def read_root_redirect():
     """
     return RedirectResponse(url="/login/login.html")
 
-app.mount("/", StaticFiles(directory="frontend"), name="static")
 
+@app.post("/v1/casos", response_model=schemas.CasoOut)
+def create_casos_endpoint(
+    caso: schemas.CasoCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_active_user)
+):
+    """
+    Endpoint para a implementação da lógica de criação dos casos.
+    """
+    
+    novo_caso = crud.create_caso(db=db, caso=caso, user_id=current_user.id)
+    
+    return novo_caso
+    
+
+@app.websocket("/v1/ws")
+async def websocket_endpoint(
+    websocket: WebSocket,
+    db: Session = Depends(get_db),
+    # Essa dependência valida o token antes de aceitar a conexão
+    current_user: models.User = Depends(get_current_user_ws) 
+):
+    # 1. Aceitar Conexão
+    # O user_id vem do token validado, não da URL (segurança)
+    await manager.connect(websocket, current_user.id)
+    
+    try:
+        while True:
+            # 2. Receber dados (Espera um JSON string)
+            data = await websocket.receive_text()
+            
+            # 3. Parsear o JSON
+            try:
+                data_dict = json.loads(data)
+                receiver_id = int(data_dict.get("receiver_id"))
+                content = data_dict.get("content")
+            except (ValueError, TypeError):
+                # Se o JSON for inválido, ignora e continua
+                continue
+
+            # 4. Salvar no Banco de Dados
+            # Criamos o schema manualmente para passar pro CRUD
+            message_schema = schemas.MessageCreate(
+                content=content,
+                receiver_id=receiver_id
+            )
+            
+            # Chama o CRUD para persistir
+            # (Nota: Em produção, idealmente isso seria async ou rodaria em threadpool)
+            nova_mensagem = crud.create_message(
+                db=db, 
+                message=message_schema, 
+                sender_id=current_user.id
+            )
+
+            # 5. Enviar em Tempo Real (Via Manager)
+            # Envia apenas o texto ou um JSON formatado
+            await manager.send_personal_message(
+                message=content, 
+                sender_id=current_user.id, # Quem mandou
+                receiver_id=receiver_id    # Quem recebe
+            )
+            
+    except WebSocketDisconnect:
+        # 6. Lidar com Desconexão
+        manager.disconnect(current_user.id)
+        
+        print(f"O usuário {current_user.id} está offline, mensagem salva no banco")
+    
+    
+    
+backend_dir = Path(__file__).resolve().parent
+
+# Sobe um nível para 'src' e entra em 'frontend': .../src/frontend
+frontend_path = backend_dir.parent / "frontend"
+
+# Monta os arquivos estáticos usando o caminho absoluto
+app.mount("/", StaticFiles(directory=str(frontend_path)), name="static")
