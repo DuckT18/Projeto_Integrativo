@@ -7,15 +7,12 @@ from sqlalchemy.orm import declarative_base
 
 # --- LÓGICA DE CONEXÃO HÍBRIDA ---
 
-# 1. Tenta pegar a URL inteira da variável de ambiente (definida no docker-compose.yml)
-#    No Docker, isso será algo como: mysql+mysqlconnector://root:root@db:3306/resgate_db
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-# 2. Se a variável não existir, assume que estamos rodando LOCALMENTE (fora do Docker)
+
 if not SQLALCHEMY_DATABASE_URL:
     print("DATABASE_URL não encontrada. Usando configuração LOCAL.")
     
-    # --- SUA CONFIGURAÇÃO LOCAL ---
     DB_USER = "root"
     DB_PASSWORD = "0608ArthurMelo19" 
     DB_HOST = "127.0.0.1"
