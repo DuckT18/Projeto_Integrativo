@@ -3,18 +3,19 @@ from sqlalchemy.orm import sessionmaker
 from urllib.parse import quote_plus
 import os
 from sqlalchemy.orm import declarative_base
-
+import dotenv
 
 # --- LÓGICA DE CONEXÃO HÍBRIDA ---
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
+load_dotenv()
 
 if not SQLALCHEMY_DATABASE_URL:
     print("DATABASE_URL não encontrada. Usando configuração LOCAL.")
     
     DB_USER = "root"
-    DB_PASSWORD = "0608ArthurMelo19" 
+    DB_PASSWORD = "s" 
     DB_HOST = "127.0.0.1"
     DB_PORT = "3306"
     DB_NAME = "PIDB"
