@@ -8,8 +8,11 @@ from pydantic import BaseModel
 from . import crud, models
 from .database import get_db 
 from . import schemas
+import dotenv
 
-SECRET_KEY = "a3f552d%#2"
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
