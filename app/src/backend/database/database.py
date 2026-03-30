@@ -7,15 +7,17 @@ import dotenv
 
 # --- LÓGICA DE CONEXÃO HÍBRIDA ---
 
+load_dotenv()
+
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-load_dotenv()
+
 
 if not SQLALCHEMY_DATABASE_URL:
     print("DATABASE_URL não encontrada. Usando configuração LOCAL.")
     
     DB_USER = "root"
-    DB_PASSWORD = "s" 
+    DB_PASSWORD = os.getenv("DB_PASS")
     DB_HOST = "127.0.0.1"
     DB_PORT = "3306"
     DB_NAME = "PIDB"
